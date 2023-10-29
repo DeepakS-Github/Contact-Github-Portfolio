@@ -1,22 +1,27 @@
 import React, { useState } from "react";
-import firebase from './database/Firebase';
+import firebase from "./database/Firebase";
 import Spinner from "./components/Spinner";
 import { toast } from "react-toastify";
 
 function App() {
-
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
-    email:"",
+    email: "",
     phoneNo: "",
     message: "",
   });
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    if (!isLoading && formData.phoneNo && formData.message && formData.email && formData.name) {
+    if (
+      !isLoading &&
+      formData.phoneNo &&
+      formData.message &&
+      formData.email &&
+      formData.name
+    ) {
       try {
         const contactRef = firebase.firestore().collection("contacts");
         await contactRef.add({
@@ -35,14 +40,26 @@ function App() {
           progress: undefined,
           theme: "light",
         });
-        setFormData({...formData, name: "", email: "", phoneNo: "", message: ""});
+        setFormData({
+          ...formData,
+          name: "",
+          email: "",
+          phoneNo: "",
+          message: "",
+        });
         setIsLoading(false);
       } catch (error) {
         console.error(
           "Error occurred while sending messagem, try again!",
           error
         );
-        setFormData({...formData, name: "", email: "", phoneNo: "", message: ""});
+        setFormData({
+          ...formData,
+          name: "",
+          email: "",
+          phoneNo: "",
+          message: "",
+        });
         toast.error("Something went wrong! Try again", {
           position: "top-right",
           autoClose: 5000,
@@ -55,8 +72,7 @@ function App() {
         });
         setIsLoading(false);
       }
-    }
-    else{
+    } else {
       console.log("Fill all the details");
       toast.warn("Please fill all the details", {
         position: "top-right",
@@ -86,9 +102,8 @@ function App() {
                   GET IN TOUCH WITH ME
                 </h2>
                 <p className="text-base leading-relaxed text-body-color dark:text-dark-6 mb-9">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eius tempor incididunt ut labore et dolore magna aliqua. Ut
-                  enim adiqua minim veniam quis nostrud exercitation ullamco
+                  For inquiries or collaborations, please don't hesitate to
+                  reach out. I look forward to connecting with you!
                 </p>
                 <div className="mb-8 flex w-full max-w-[370px]">
                   <div className="bg-blue-600/5 text-blue-600 mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded sm:h-[70px] sm:max-w-[70px]">
@@ -188,8 +203,8 @@ function App() {
                       type="text"
                       placeholder="Your Name"
                       value={formData.name}
-                      onChange={(e)=>{
-                        setFormData({...formData, name: e.target.value});
+                      onChange={(e) => {
+                        setFormData({ ...formData, name: e.target.value });
                       }}
                       className="border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-blue-600 w-full rounded border py-3 px-[14px] text-base outline-none"
                     />
@@ -199,8 +214,8 @@ function App() {
                       type="email"
                       placeholder="Your Email"
                       value={formData.email}
-                      onChange={(e)=>{
-                        setFormData({...formData, email: e.target.value});
+                      onChange={(e) => {
+                        setFormData({ ...formData, email: e.target.value });
                       }}
                       className="border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-blue-600 w-full rounded border py-3 px-[14px] text-base outline-none"
                     />
@@ -210,8 +225,8 @@ function App() {
                       type="number"
                       placeholder="Your Phone"
                       value={formData.phoneNo}
-                      onChange={(e)=>{
-                        setFormData({...formData, phoneNo: e.target.value});
+                      onChange={(e) => {
+                        setFormData({ ...formData, phoneNo: e.target.value });
                       }}
                       className="border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-blue-600 w-full rounded border py-3 px-[14px] text-base outline-none"
                     />
@@ -222,8 +237,8 @@ function App() {
                       placeholder="Your Message"
                       value={formData.message}
                       className="border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-blue-600 w-full resize-none rounded border py-3 px-[14px] text-base outline-none"
-                      onChange={(e)=>{
-                        setFormData({...formData, message: e.target.value});
+                      onChange={(e) => {
+                        setFormData({ ...formData, message: e.target.value });
                       }}
                     ></textarea>
                   </div>
@@ -231,12 +246,15 @@ function App() {
                     <button
                       type="submit"
                       className="w-full justify-center items-center flex flex-row gap-2 p-3 text-white transition border rounded border-blue-600 bg-blue-600 hover:bg-opacity-90"
-                      onClick={(e)=>{
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      {isLoading?<Spinner color="#ffffff" width="w-6"/>:null}Send Message
+                      {isLoading ? (
+                        <Spinner color="#ffffff" width="w-6" />
+                      ) : null}
+                      Send Message
                     </button>
                   </div>
                 </form>
